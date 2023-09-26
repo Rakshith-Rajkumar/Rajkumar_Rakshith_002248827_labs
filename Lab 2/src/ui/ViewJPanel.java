@@ -58,17 +58,17 @@ public class ViewJPanel extends javax.swing.JPanel {
 
         tblVitalHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Date", "Temprature", "Blood Pressure", "Pulse"
+                "Date", "Temprature", "Pulse"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -80,7 +80,6 @@ public class ViewJPanel extends javax.swing.JPanel {
             tblVitalHistory.getColumnModel().getColumn(0).setResizable(false);
             tblVitalHistory.getColumnModel().getColumn(1).setResizable(false);
             tblVitalHistory.getColumnModel().getColumn(2).setResizable(false);
-            tblVitalHistory.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnView.setText("View ");
@@ -190,7 +189,7 @@ public class ViewJPanel extends javax.swing.JPanel {
         int selectedRowIndex = tblVitalHistory.getSelectedRow();
         
         if(selectedRowIndex < 0){
-            JOptionPane.showMessageDialog(this, "Please select the row to delete.");
+            JOptionPane.showMessageDialog(this, "Please select the row to view.");
             return;
         }
         
@@ -223,7 +222,7 @@ public class ViewJPanel extends javax.swing.JPanel {
         }
         
         DefaultTableModel model = (DefaultTableModel) tblVitalHistory.getModel();
-        System.out.println(model.getValueAt(selectedRowIndex, 0));
+//        System.out.println(model.getValueAt(selectedRowIndex, 0));
         VitalSigns selectedVitals = (VitalSigns) model.getValueAt(selectedRowIndex, 0);
         
         history.deleteVitals(selectedVitals);
@@ -254,11 +253,10 @@ public class ViewJPanel extends javax.swing.JPanel {
         model.setRowCount(0);   
         
         for(VitalSigns newVitals : history.getHistory()){
-            Object[] row = new Object [4];
-            row[0] = newVitals.getDate();
+            Object[] row = new Object [3];
+            row[0] = newVitals;
             row[1] = newVitals.getTemprature();
-            row[2] = newVitals.getBloodPressure();
-            row[3] = newVitals.getPulse();
+            row[2] = newVitals.getPulse();
             
             model.addRow(row);
             
